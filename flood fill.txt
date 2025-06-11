@@ -1,0 +1,68 @@
+import java.util.Scanner;
+
+public class FloodFill {
+
+    public static int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        int originalColor = image[sr][sc];
+        // If the starting pixel is already the target color, no changes needed
+        if (originalColor == color) return image;
+        dfs(image, sr, sc, originalColor, color);
+        return image;
+    }
+
+    private static void dfs(int[][] image, int r, int c, int originalColor, int color) {
+        // Boundary and color check
+        if (r < 0 || r >= image.length || c < 0 || c >= image[0].length) return;
+        if (image[r][c] != originalColor) return;
+
+        // Change color
+        image[r][c] = color;
+
+        // Recursively call dfs for 4 directions
+        dfs(image, r + 1, c, originalColor, color);
+        dfs(image, r - 1, c, originalColor, color);
+        dfs(image, r, c + 1, originalColor, color);
+        dfs(image, r, c - 1, originalColor, color);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input image dimensions
+        System.out.print("Enter number of rows (m): ");
+        int m = sc.nextInt();
+        System.out.print("Enter number of columns (n): ");
+        int n = sc.nextInt();
+
+        int[][] image = new int[m][n];
+        System.out.println("Enter the image pixel values row by row:");
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                image[i][j] = sc.nextInt();
+            }
+        }
+
+        // Input starting pixel and new color
+        System.out.print("Enter starting row (sr): ");
+        int sr = sc.nextInt();
+        System.out.print("Enter starting column (sc): ");
+        int scCol = sc.nextInt();
+        System.out.print("Enter new color: ");
+        int color = sc.nextInt();
+
+        // Apply flood fill
+        int[][] result = floodFill(image, sr, scCol, color);
+
+        // Print modified image
+        System.out.println("Modified image:");
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(result[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        sc.close();
+    }
+}
