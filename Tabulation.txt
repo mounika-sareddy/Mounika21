@@ -1,0 +1,25 @@
+public class Knapsack {
+
+    public static int knapsackTabulation(int[] profit, int[] weight, int W, int n) {
+        int[][] dp = new int[n + 1][W + 1];
+
+        for (int i = 1; i <= n; i++) {
+            for (int w = 1; w <= W; w++) {
+                if (weight[i - 1] <= w) {
+                    dp[i][w] = Math.max(profit[i - 1] + dp[i - 1][w - weight[i - 1]], dp[i - 1][w]);
+                } else {
+                    dp[i][w] = dp[i - 1][w];
+                }
+            }
+        }
+        return dp[n][W];
+    }
+
+    public static void main(String[] args) {
+        int W = 4;
+        int[] profit = {1, 2, 3};
+        int[] weight = {4, 5, 1};
+        int n = profit.length;
+        System.out.println("Output(Tabulation): " + knapsackTabulation(profit, weight, W, n));
+    }
+}
