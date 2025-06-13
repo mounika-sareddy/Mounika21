@@ -1,0 +1,31 @@
+import java.util.Arrays;
+
+public class SubsetSum {
+    // Returns true if there exists a subset with the given sum in arr[]
+    public static boolean isSubsetSum(int[] arr, int n, int target) {
+        // Base Cases
+        if (target == 0) {
+            return true;
+        }
+        if (n == 0) {
+            return false;
+        }
+
+        // If last element is greater than target, ignore it
+        if (arr[n - 1] > target) {
+            return isSubsetSum(arr, n - 1, target);
+        }
+
+        // Check if sum can be obtained by including or excluding the last element
+        return isSubsetSum(arr, n - 1, target) || isSubsetSum(arr, n - 1, target - arr[n - 1]);
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 34, 4, 12, 5, 2};
+        int target = 37;
+        int n = arr.length;
+
+        boolean result = isSubsetSum(arr, n, target);
+        System.out.println("Subset with given sum exists: " + result);
+    }
+}
